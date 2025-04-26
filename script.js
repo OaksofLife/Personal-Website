@@ -201,66 +201,75 @@ async function simulateTyping() {
 submitBtn.addEventListener("click", async () => {
   removeCaret();
   
-  // First, make absolutely sure the main content is hidden (use both display and opacity)
-  mainContent.classList.add("hidden");
-  mainContent.style.opacity = "0";
+  // Reset any prior state
+  document.body.style.overflow = "hidden";
   
-  // Add glitch effect that comes down like a curtain
+  // Ensure the main content is properly hidden
+  mainContent.style.visibility = "hidden";
+  mainContent.style.display = "none";
+  
+  // Keep the password screen visible during the transition
+  passwordScreen.style.position = "fixed";
+  passwordScreen.style.zIndex = "10";
+  passwordScreen.style.visibility = "visible";
+  
+  // Create and add the glitch curtain with absolute positioning
   const glitchCurtain = document.createElement("div");
   glitchCurtain.classList.add("glitch-curtain");
   document.body.appendChild(glitchCurtain);
   
-  // Animate the curtain coming down
+  // Trigger glitch animation
   await sleep(50);
   glitchCurtain.classList.add("animate");
   
-  // CRITICAL: Wait for the full transition to complete
+  // Wait for glitch animation
   await sleep(2000);
   
-  // After glitch, add black curtain
+  // Add black curtain
   const blackCurtain = document.createElement("div");
   blackCurtain.classList.add("black-curtain");
   document.body.appendChild(blackCurtain);
   
+  // Trigger black curtain animation
   await sleep(50);
   blackCurtain.classList.add("animate");
   
-  // CRITICAL: Wait for the full black curtain transition
+  // Wait for animation
   await sleep(2000);
   
-  // Only now change background color
+  // Change background
   document.body.style.backgroundColor = "black";
   
-  // Hide password screen completely
+  // Only now - hide password screen
+  passwordScreen.style.visibility = "hidden";
   passwordScreen.style.display = "none";
   
-  // Empty the intro text to prepare for typing
+  // Prepare main content
+  mainContent.style.visibility = "visible";
+  mainContent.style.display = "flex";
+  mainContent.style.opacity = "0";  // Start invisible
+  
+  // Clear intro text
   introText.textContent = "";
   
-  // Remove curtains after everything is hidden
+  // Remove curtains (they've served their purpose)
   glitchCurtain.remove();
   blackCurtain.remove();
   
-  // ONLY NOW make main content visible but with opacity 0
-  mainContent.classList.remove("hidden");
-  
-  // Force browser to process this change before continuing
-  await sleep(50);
-  
-  // Now make main content visible with transition
-  mainContent.style.transition = "opacity 0.5s ease";
+  // Fade in main content
+  await sleep(100);
   mainContent.style.opacity = "1";
   
-  // Wait for fade-in transition to complete
+  // Wait for fade in
   await sleep(800);
   
-  // Type intro text character by character
+  // Type the intro text
   await typeIntroTextAsync("Hi, my name is Andy.");
   
   // Wait before showing nav boxes
   await sleep(800);
   
-  // Show nav boxes with fade-in
+  // Show navigation boxes
   navBoxes.classList.add("show");
 });
 
@@ -298,31 +307,43 @@ async function typeIntroTextAsync(text) {
 function finishIntro() {
   skipIntro = true;
   removeCaret();
+  
+  // Hide password screen
+  passwordScreen.style.visibility = "hidden";
   passwordScreen.style.display = "none";
+  
+  // Set background
   document.body.style.backgroundColor = "black";
   
-  // Force hidden state first
-  mainContent.classList.add("hidden");
+  // Reset main content state
+  mainContent.style.visibility = "hidden";
+  mainContent.style.display = "none";
   mainContent.style.opacity = "0";
   
-  // Force browser to process changes
+  // Show main content with delay
   setTimeout(() => {
-    mainContent.classList.remove("hidden");
-    mainContent.style.opacity = "1";
-    introText.textContent = "Hi, my name is Andy.";
+    mainContent.style.display = "flex";
+    mainContent.style.visibility = "visible";
     
-    // Add the cursor at the end
-    const cursor = document.createElement("span");
-    cursor.classList.add("text-cursor");
-    introText.appendChild(cursor);
-    
-    navBoxes.classList.add("show");
+    // Short delay before showing content
+    setTimeout(() => {
+      mainContent.style.opacity = "1";
+      introText.textContent = "Hi, my name is Andy.";
+      
+      // Add cursor at the end
+      const cursor = document.createElement("span");
+      cursor.classList.add("text-cursor");
+      introText.appendChild(cursor);
+      
+      navBoxes.classList.add("show");
+    }, 100);
   }, 100);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  // Ensure main content is properly hidden at start
-  mainContent.classList.add("hidden");
+  // Ensure proper initial state
+  mainContent.style.visibility = "hidden";
+  mainContent.style.display = "none";
   mainContent.style.opacity = "0";
   
   simulateTyping();
