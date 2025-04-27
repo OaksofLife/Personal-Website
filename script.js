@@ -17,7 +17,16 @@ const photoFiles = [
   "assets/images/photo2.jpg", 
   "assets/images/photo3.jpg",
   "assets/images/photo4.jpg",
-  "assets/images/photo5.jpg"
+  "assets/images/photo5.jpg",
+  "assets/images/photo6.jpg",
+  "assets/images/photo7.jpg",
+  "assets/images/photo8.jpg",
+  "assets/images/photo9.jpg",
+  "assets/images/photo10.jpg",
+  "assets/images/photo11.jpg",
+  "assets/images/photo12.jpg",
+  "assets/images/photo13.jpg",
+  "assets/images/photo14.jpg"
 ];
 let currentPhotoIndex = 0;
 let shuffleInterval;
@@ -283,8 +292,10 @@ submitBtn.addEventListener("click", async () => {
   // Show navigation boxes sequentially
   for (let i = 0; i < navBoxes.length; i++) {
     navBoxes[i].classList.add("show");
-    await sleep(300); // delay between each box appearing
+    await sleep(500); // delay between each box appearing
   }
+  const photoStack = document.getElementById("photo-stack");
+  photoStack.classList.add("show");
   
   // Initialize photo stack
   initPhotoStack();

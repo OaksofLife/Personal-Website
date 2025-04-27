@@ -263,6 +263,17 @@ body {
   transform-style: preserve-3d;
 }
 
+#photo-stack {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+#photo-stack.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .photo {
   position: absolute;
   width: 100%;
@@ -478,4 +489,16 @@ footer img {
     width: 100%;
     margin-top: 40px;
   }
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* spacing between items */
+}
+
+footer .social-links {
+  display: flex;
+  gap: 20px; /* spacing between icons */
 }
