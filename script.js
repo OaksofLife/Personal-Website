@@ -9,7 +9,18 @@ const introText = document.getElementById("intro-text");
 const fakeCursor = document.getElementById("fake-cursor");
 const inputWrapper = document.getElementById("input-wrapper");
 const passwordBox = document.getElementById("password-box");
-const navBoxes = document.querySelector(".nav-boxes");
+const navBoxes = document.querySelectorAll(".box");
+
+// Photo shuffle configuration
+const photoFiles = [
+  "assets/images/photo1.jpg",
+  "assets/images/photo2.jpg", 
+  "assets/images/photo3.jpg",
+  "assets/images/photo4.jpg",
+  "assets/images/photo5.jpg"
+];
+let currentPhotoIndex = 0;
+let shuffleInterval;
 
 let skipIntro = false;
 let caretElement;
@@ -266,17 +277,34 @@ submitBtn.addEventListener("click", async () => {
   // Type the intro text
   await typeIntroTextAsync("Hi, my name is Andy.");
   
-  // Wait before showing nav boxes
+  // Wait before showing nav boxes one by one
   await sleep(800);
   
-  // Show navigation boxes
-  navBoxes.classList.add("show");
+  // Show navigation boxes sequentially
+  for (let i = 0; i < navBoxes.length; i++) {
+    navBoxes[i].classList.add("show");
+    await sleep(300); // delay between each box appearing
+  }
+  
+  // Initialize photo stack
+  initPhotoStack();
+  
+  // Start photo shuffling
+  startPhotoShuffle();
 });
 
 // Async function for typing intro text character by character
 async function typeIntroTextAsync(text) {
   // Clear text first
   introText.textContent = "";
+  
+  // Add cursor at the beginning before typing
+  const cursor = document.createElement("span");
+  cursor.classList.add("text-cursor");
+  introText.appendChild(cursor);
+  
+  // Wait a moment before typing begins
+  await sleep(800);
   
   // Type each character with precise timing
   for (let i = 0; i < text.length; i++) {
@@ -285,7 +313,10 @@ async function typeIntroTextAsync(text) {
       return;
     }
     
+    // Remove cursor and add it after the new text
+    introText.removeChild(cursor);
     introText.textContent += text.charAt(i);
+    introText.appendChild(cursor);
     
     // Different timing for different characters
     let delay = 150;
@@ -296,14 +327,10 @@ async function typeIntroTextAsync(text) {
     await sleep(delay + Math.random() * 50);
   }
   
-  // Add blinking cursor at the end
-  const cursor = document.createElement("span");
-  cursor.classList.add("text-cursor");
-  introText.appendChild(cursor);
-  
   return Promise.resolve();
 }
 
+// Update to finishIntro function to add cursor before text
 function finishIntro() {
   skipIntro = true;
   removeCaret();
@@ -328,16 +355,115 @@ function finishIntro() {
     // Short delay before showing content
     setTimeout(() => {
       mainContent.style.opacity = "1";
-      introText.textContent = "Hi, my name is Andy.";
       
-      // Add cursor at the end
+      // Set text and append cursor
+      introText.textContent = "Hi, my name is Andy.";
       const cursor = document.createElement("span");
       cursor.classList.add("text-cursor");
       introText.appendChild(cursor);
       
-      navBoxes.classList.add("show");
+      // Show boxes one by one
+      let boxIndex = 0;
+      const showBoxesSequentially = () => {
+        if (boxIndex < navBoxes.length) {
+          navBoxes[boxIndex].classList.add("show");
+          boxIndex++;
+          setTimeout(showBoxesSequentially, 300);
+        }
+      };
+      showBoxesSequentially();
+      
+      // Initialize photo stack
+      initPhotoStack();
+      
+      // Start photo shuffling
+      startPhotoShuffle();
     }, 100);
   }, 100);
+}
+
+// Initialize the photo stack
+function initPhotoStack() {
+  const photoStack = document.getElementById("photo-stack");
+  
+  // Clear any existing photos
+  photoStack.innerHTML = "";
+  
+  // Create photo elements
+  photoFiles.forEach((photoSrc, index) => {
+    const photoDiv = document.createElement("div");
+    photoDiv.classList.add("photo");
+    photoDiv.style.backgroundImage = `url(${photoSrc})`;
+    
+    // Assign classes based on position
+    if (index === 0) {
+      photoDiv.classList.add("active");
+    } else if (index === 1) {
+      photoDiv.classList.add("next");
+    } else if (index === photoFiles.length - 1) {
+      photoDiv.classList.add("prev");
+    }
+    
+    photoStack.appendChild(photoDiv);
+  });
+}
+
+// Start the photo shuffle interval
+// Start the photo shuffle interval
+function startPhotoShuffle() {
+  // Clear any existing interval
+  if (shuffleInterval) {
+    clearInterval(shuffleInterval);
+  }
+  
+  // Set new interval to run every 3 seconds
+  shuffleInterval = setInterval(() => {
+    shufflePhotos();
+  }, 3000);
+}
+
+// Shuffle the photos - send top photo to back
+function shufflePhotos() {
+  const photoStack = document.getElementById("photo-stack");
+  const photos = photoStack.querySelectorAll(".photo");
+  
+  if (photos.length < 2) return; // Need at least 2 photos to shuffle
+  
+  // Find the currently active photo
+  const activePhoto = photoStack.querySelector(".photo.active");
+  const nextPhoto = photoStack.querySelector(".photo.next") || photos[1];
+  
+  // Add animation classes
+  activePhoto.classList.add("shuffle-out");
+  nextPhoto.classList.add("shuffle-in");
+  
+  // Remove existing position classes
+  activePhoto.classList.remove("active");
+  nextPhoto.classList.remove("next");
+  
+  // After animation completes, reset positions
+  setTimeout(() => {
+    // Update the order by moving the old active to the back
+    photoStack.appendChild(activePhoto);
+    
+    // Remove animation classes
+    activePhoto.classList.remove("shuffle-out");
+    nextPhoto.classList.remove("shuffle-in");
+    
+    // Apply new position classes to all photos
+    const updatedPhotos = photoStack.querySelectorAll(".photo");
+    
+    // Clear all position classes first
+    updatedPhotos.forEach(photo => {
+      photo.classList.remove("active", "prev", "next");
+    });
+    
+    // Apply new position classes
+    updatedPhotos[0].classList.add("active");
+    updatedPhotos[1].classList.add("next");
+    updatedPhotos[updatedPhotos.length - 1].classList.add("prev");
+    
+  }, 800); // Match this with the animation duration in CSS
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -346,9 +472,17 @@ window.addEventListener("DOMContentLoaded", () => {
   mainContent.style.display = "none";
   mainContent.style.opacity = "0";
   
+  // Reset all boxes to hidden state initially
+  navBoxes.forEach(box => {
+    box.classList.remove("show");
+  });
+  
   simulateTyping();
 });
 
-document.body.addEventListener("click", () => {
-  if (!skipIntro) finishIntro();
+// Clean up interval when page is unloaded
+window.addEventListener("beforeunload", () => {
+  if (shuffleInterval) {
+    clearInterval(shuffleInterval);
+  }
 });
