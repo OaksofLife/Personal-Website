@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Andy Chai - Portfolio</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Make the entire box clickable without changing dimensions */
+    .nav-boxes .box {
+      position: relative;
+      cursor: pointer;
+    }
+    
+    /* Make sure the grid layout is maintained */
+    .nav-boxes a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+  </style>
 </head>
 <body>
 
@@ -17,6 +33,7 @@
       <div id="fake-cursor"></div>
     </div>
     <button id="submit-btn">Submit</button>
+    <div id="skip-intro-btn">Skip Intro</div>
   </div>
 
   <div id="main-content" class="hidden">
@@ -24,19 +41,19 @@
       <h1 id="intro-text"></h1>
       <div class="content-container">
         <div class="nav-boxes">
-          <div class="box" id="box-about">
+          <div class="box" id="box-about" onclick="window.location.href='about.html'">
             <h3>About Me</h3>
             <p class="box-subtext">My personal path through life, the lessons I've learned, and other ramblings from a newly appointed young adult stumbling through society</p>
           </div>
-          <div class="box" id="box-experience">
+          <div class="box" id="box-experience" onclick="window.location.href='experience.html'">
             <h3>Experience</h3>
             <p class="box-subtext">The work I've done, the companies I've worked for, and the knowledge and truths I took from working with each one of my clients</p>
           </div>
-          <div class="box" id="box-projects">
+          <div class="box" id="box-projects" onclick="window.location.href='projects.html'">
             <h3>Projects</h3>
             <p class="box-subtext">The more technical and logistical aspects about each of the projects I've worked on both with my clients and alone</p>
           </div>
-          <div class="box" id="box-hobbies">
+          <div class="box" id="box-hobbies" onclick="window.location.href='hobbies.html'">
             <h3>Hobbies</h3>
             <p class="box-subtext">I mean, everyone has to have fun- right?</p>
           </div>

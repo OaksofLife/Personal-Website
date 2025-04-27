@@ -10,6 +10,7 @@ const fakeCursor = document.getElementById("fake-cursor");
 const inputWrapper = document.getElementById("input-wrapper");
 const passwordBox = document.getElementById("password-box");
 const navBoxes = document.querySelectorAll(".box");
+const skipIntroBtn = document.getElementById("skip-intro-btn");
 
 // Photo shuffle configuration
 const photoFiles = [
@@ -221,6 +222,9 @@ async function simulateTyping() {
 submitBtn.addEventListener("click", async () => {
   removeCaret();
   
+  // Don't proceed with animations if skip was already clicked
+  if (skipIntro) return;
+  
   // Reset any prior state
   document.body.style.overflow = "hidden";
   
@@ -309,6 +313,9 @@ async function typeIntroTextAsync(text) {
   // Clear text first
   introText.textContent = "";
   
+  // If skip was clicked during this function execution, exit early
+  if (skipIntro) return;
+  
   // Add cursor at the beginning before typing
   const cursor = document.createElement("span");
   cursor.classList.add("text-cursor");
@@ -319,8 +326,8 @@ async function typeIntroTextAsync(text) {
   
   // Type each character with precise timing
   for (let i = 0; i < text.length; i++) {
+    // Check if skip was pressed during typing
     if (skipIntro) {
-      introText.textContent = text;
       return;
     }
     
@@ -338,10 +345,12 @@ async function typeIntroTextAsync(text) {
     await sleep(delay + Math.random() * 50);
   }
   
+  // Fade out skip button naturally when typing is done
+  skipIntroBtn.classList.add("hidden");
+  
   return Promise.resolve();
 }
 
-// Update to finishIntro function to add cursor before text
 function finishIntro() {
   skipIntro = true;
   removeCaret();
@@ -350,48 +359,56 @@ function finishIntro() {
   passwordScreen.style.visibility = "hidden";
   passwordScreen.style.display = "none";
   
+  // Hide skip button with fade
+  skipIntroBtn.classList.add("hidden");
+  
   // Set background
   document.body.style.backgroundColor = "black";
   
-  // Reset main content state
-  mainContent.style.visibility = "hidden";
-  mainContent.style.display = "none";
+  // Clean up any remaining animations or elements
+  if (document.querySelector('.glitch-curtain')) {
+    document.querySelector('.glitch-curtain').remove();
+  }
+  
+  if (document.querySelector('.black-curtain')) {
+    document.querySelector('.black-curtain').remove();
+  }
+  
+  // Prepare main content
+  mainContent.style.visibility = "visible";
+  mainContent.style.display = "flex";
   mainContent.style.opacity = "0";
   
-  // Show main content with delay
+  // Show everything at once with a fade in
   setTimeout(() => {
-    mainContent.style.display = "flex";
-    mainContent.style.visibility = "visible";
+    // Set the intro text immediately
+    introText.textContent = "Hi, my name is Andy.";
     
-    // Short delay before showing content
-    setTimeout(() => {
-      mainContent.style.opacity = "1";
-      
-      // Set text and append cursor
-      introText.textContent = "Hi, my name is Andy.";
-      const cursor = document.createElement("span");
-      cursor.classList.add("text-cursor");
-      introText.appendChild(cursor);
-      
-      // Show boxes one by one
-      let boxIndex = 0;
-      const showBoxesSequentially = () => {
-        if (boxIndex < navBoxes.length) {
-          navBoxes[boxIndex].classList.add("show");
-          boxIndex++;
-          setTimeout(showBoxesSequentially, 300);
-        }
-      };
-      showBoxesSequentially();
-      
-      // Initialize photo stack
-      initPhotoStack();
-      
-      // Start photo shuffling
-      startPhotoShuffle();
-    }, 100);
+    // Add the blinking cursor
+    const cursor = document.createElement("span");
+    cursor.classList.add("text-cursor");
+    introText.appendChild(cursor);
+    
+    // Show all navigation boxes immediately
+    navBoxes.forEach(box => {
+      box.classList.add("show");
+    });
+    
+    // Initialize photo stack
+    initPhotoStack();
+    
+    // Show the photo stack
+    const photoStack = document.getElementById("photo-stack");
+    photoStack.classList.add("show");
+    
+    // Start photo shuffling
+    startPhotoShuffle();
+    
+    // Now fade in everything together
+    mainContent.style.opacity = "1";
   }, 100);
 }
+
 
 // Initialize the photo stack
 function initPhotoStack() {
@@ -486,6 +503,12 @@ window.addEventListener("DOMContentLoaded", () => {
   // Reset all boxes to hidden state initially
   navBoxes.forEach(box => {
     box.classList.remove("show");
+  });
+  
+  // Add event listener for skip button
+  skipIntroBtn.addEventListener("click", () => {
+    skipIntro = true;
+    finishIntro();
   });
   
   simulateTyping();

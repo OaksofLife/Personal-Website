@@ -502,3 +502,30 @@ footer .social-links {
   display: flex;
   gap: 20px; /* spacing between icons */
 }
+
+/* Skip intro button */
+#skip-intro-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  z-index: 100;
+  transition: all 0.3s ease, opacity 1s ease;
+  opacity: 1;
+}
+
+#skip-intro-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#skip-intro-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
