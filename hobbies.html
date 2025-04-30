@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andy Chai - Hobbies</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Override inherited styles that might cause scrolling issues */
+    body {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      height: auto !important;
+      position: relative !important;
+      display: block !important;
+    }
+    
+    #main-content {
+      position: relative !important;
+      height: auto !important;
+      min-height: 100vh !important;
+      overflow: visible !important;
+      display: block !important;
+      padding: 40px !important;
+      box-sizing: border-box !important;
+    }
+    
+    .top-section {
+      position: relative !important;
+      display: block !important;
+      width: 100% !important;
+    }
+    
+    /* Header styles */
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 20px 0;
+      margin-bottom: 40px;
+    }
+    
+    .home-button {
+      background: none;
+      border: 1px solid white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-right: 20px;
+    }
+    
+    .home-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .home-button svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+    
+    .header h1 {
+      font-size: 2rem;
+      font-weight: normal;
+      margin: 0;
+    }
+    
+    /* Hobby section styles */
+    .hobby-section {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      margin-bottom: 60px;
+    }
+    
+    .hobby-text {
+      width: 55%;
+      font-family: 'Courier New', monospace;
+      line-height: 1.6;
+    }
+    
+    .hobby-text h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      font-weight: normal;
+    }
+    
+    .hobby-text p {
+      margin-bottom: 20px;
+    }
+    
+    .hobby-photo {
+      width: 40%;
+      height: 300px;
+      border: 4px solid white;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Footer styles */
+    footer {
+      position: relative !important;
+      bottom: auto !important;
+      margin-top: 40px !important;
+      padding-bottom: 20px !important;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .hobby-section {
+        flex-direction: column;
+      }
+      
+      .hobby-text {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      
+      .hobby-photo {
+        width: 100%;
+        margin-bottom: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="main-content">
+    <div class="top-section">
+      <div class="header">
+        <a href="direct.html" class="home-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M3 13h1v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9a.999.999 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13zm7 7v-5h4v5h-4zm2-15.586l6 6V15l.001 5H16v-5c0-1.103-.897-2-2-2h-4c-1.103 0-2 .897-2 2v5H6v-9.586l6-6z"/>
+          </svg>
+        </a>
+        <h1>Hobbies</h1>
+      </div>
+      
+      <div class="hobby-section">
+        <div class="hobby-text">
+          <h2>Music</h2>
+          <p>I've been playing guitar for nearly a decade, starting with a few years of lessons before continuing to explore on my own. I also spent several years learning drums and percussion, performing Taiko in the 2016 St. Patrick's Day Parade. In 2019, I joined a percussion group under the Toronto Chinese Orchestra, though we were unable to perform due to the COVID-19 lockdowns.</p>
+        </div>
+        <div class="hobby-photo" style="background-image: url('assets/images/music.jpg')"></div>
+      </div>
+      
+      <div class="hobby-section">
+        <div class="hobby-text">
+          <h2>Sports</h2>
+          <p>I've always loved playing sports, especially basketball, badminton, and swimming. From ages 10 to 12, I played Boys Rep Basketball, and I've been swimming for most of my life. In 2022, I earned my lifeguard certification after years of practice and training.</p>
+        </div>
+        <div class="hobby-photo" style="background-image: url('assets/images/sports.jpg')"></div>
+      </div>
+      
+      <div class="hobby-section">
+        <div class="hobby-text">
+          <h2>League of Legends</h2>
+          <p>I've played a lot of League over the years and reached Masters in Ranked Flex and Diamond in Solo/Duo. At my peak, I was ranked 24th in North America for Ranked Flex—a notable spot in a game with over 150 million monthly players.</p>
+        </div>
+        <div class="hobby-photo" style="background-image: url('assets/images/LOL.jpg')"></div>
+      </div>
+      
+      <div class="hobby-section">
+        <div class="hobby-text">
+          <h2>Teamfight Tactics (TFT)</h2>
+          <p>In TFT, I reached Masters in Ranked and peaked at 762nd in North America. I also placed 28th in an official tournament hosted by Boyses and Riot Games, with results listed on <a href="https://liquipedia.net/tft/Inkborn_Fables/Americas/NA/Phoenix%27s_Pinnacle">Liquipedia</a> for reference.</p>
+        </div>
+        <div class="hobby-photo" style="background-image: url('assets/images/tft.jpg')"></div>
+      </div>
+    </div>
+    
+    <footer>
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/andychai1/" target="_blank" rel="noopener">
+          <img src="assets/icons/linkedin.svg" alt="LinkedIn" />
+        </a>
+        <a href="https://github.com/OaksofLife" target="_blank" rel="noopener">
+          <img src="assets/icons/github.svg" alt="GitHub" />
+        </a>
+      </div>
+      <p>&copy; 2025 Andy Chai</p>
+    </footer>
+  </div>
+</body>
+</html>
