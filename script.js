@@ -14,6 +14,7 @@ const skipIntroBtn = document.getElementById("skip-intro-btn");
 
 // Photo shuffle configuration
 const photoFiles = [
+  "assets/images/photo0.jpg",
   "assets/images/photo1.jpg",
   "assets/images/photo2.jpg", 
   "assets/images/photo3.jpg",
