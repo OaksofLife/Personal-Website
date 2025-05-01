@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Andy Chai - Gong-Verse Project</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Using the same CSS styles from your original file -->
   <style>
     /* Reset and base styles */
     body, html {
@@ -279,7 +280,7 @@
         <!-- Why Section -->
         <div class="project-section">
           <h2>Why</h2>
-          <p>The Gong-Verse Data Collection project was initiated to build a robust system for collecting, validating, and storing large amounts of data from international clients. With over 60,000 data entries to process, the project required a solution that could efficiently handle data validation while maintaining accuracy and integrity. Certain parts of the project had to be kept secret and git-ignored such as the validation process against company data to ensure client data safety</p>
+          <p>The Gong-Verse Data Collection project was initiated to build a robust system for collecting, validating, and storing large amounts of data from international clients. With over 60,000 data entries to process, the project required a solution that could efficiently handle data validation while maintaining accuracy and integrity. Certain parts of the project had to be kept secret and git-ignored such as the validation process against company data to ensure client data safety.</p>
         </div>
         
         <!-- How Section -->
@@ -310,14 +311,15 @@
           <a href="https://github.com/OaksofLife/gong-verse" target="_blank">github.com/OaksofLife/gong-verse</a>
         </div>
         
-        <!-- Video Section -->
+        <!-- Video Section - UPDATED FOR BETTER PLAYBACK -->
         <div class="project-section">
           <h2>Project Demo</h2>
           <div class="video-container">
             <div class="video-wrapper">
-              <video controls muted preload="metadata">
-                <source src="assets/videos/gongverse.mov" type="video/quicktime">
-                Your browser does not support the video tag.
+              <video controls autoplay="false" preload="metadata" poster="assets/images/gongverse1.jpg" id="demoVideo">
+                <source src="assets/videos/gongverse.webm" type="video/webm">
+                <source src="assets/videos/gongverse.mp4" type="video/mp4">
+                <p>Your browser doesn't support HTML5 video. Here's a <a href="assets/videos/gongverse.webm" download>link to download</a> the video instead.</p>
               </video>
             </div>
           </div>
@@ -328,15 +330,15 @@
           <h2>Project Gallery</h2>
           <div class="gallery">
             <div class="gallery-item">
-              <div class="gallery-image" style="background-image: url('assets/images/gongverse1.jpg');" onclick="openLightbox('assets/images/gongverse1.jpg', 'Data validation interface showing form input validation')"></div>
+              <div class="gallery-image" style="background-image: url('assets/images/gongverse1.jpg');" onclick="openLightbox('assets/images/gongverse1.jpg', 'Invalid Password Preventing Entry to Non-approved Users')"></div>
               <div class="gallery-caption">Invalid Password Preventing Entry to Non-approved Users</div>
             </div>
             <div class="gallery-item">
-              <div class="gallery-image" style="background-image: url('assets/images/gongverse2.jpg');" onclick="openLightbox('assets/images/gonverse2.jpg', 'Dashboard view of processed data entries with statistics')"></div>
+              <div class="gallery-image" style="background-image: url('assets/images/gongverse2.jpg');" onclick="openLightbox('assets/images/gongverse2.jpg', 'Image of a successful submission (done in safe environment as to not mess with client data)')"></div>
               <div class="gallery-caption">Image of a successful submission (done in safe environment as to not mess with client data)</div>
             </div>
             <div class="gallery-item">
-              <div class="gallery-image" style="background-image: url('assets/images/gongverse3.jpg');" onclick="openLightbox('assets/images/gongverse3.jpg', 'Admin panel showing data integration with Google Sheets')"></div>
+              <div class="gallery-image" style="background-image: url('assets/images/gongverse3.jpg');" onclick="openLightbox('assets/images/gongverse3.jpg', 'Image of Data Being Stored in Google Sheets')"></div>
               <div class="gallery-caption">Image of Data Being Stored in Google Sheets</div>
             </div>
           </div>
@@ -415,6 +417,69 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && document.getElementById('lightbox').classList.contains('active')) {
         closeLightbox();
+      }
+    });
+
+    // Improved video handling
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.getElementById('demoVideo');
+      
+      if (video) {
+        // Add error handler for each source
+        const sources = video.querySelectorAll('source');
+        let sourcesLoaded = 0;
+        let sourcesError = 0;
+        
+        sources.forEach(function(source) {
+          source.addEventListener('error', function(e) {
+            console.error('Source error:', e);
+            sourcesError++;
+            
+            // Check if all sources failed
+            if (sourcesError === sources.length) {
+              showVideoError();
+            }
+          });
+        });
+        
+        // Add error handler for the video itself
+        video.addEventListener('error', function(e) {
+          console.error('Video error:', e);
+          showVideoError();
+        });
+        
+        // Force the video to attempt loading
+        video.load();
+        
+        // Force reload if the video doesn't play within 2 seconds
+        setTimeout(function() {
+          if (video.readyState === 0) {
+            video.load();
+          }
+        }, 2000);
+      }
+      
+      function showVideoError() {
+        const wrapper = video.closest('.video-wrapper');
+        if (wrapper) {
+          // Only add error message if it doesn't exist yet
+          if (!wrapper.querySelector('.video-error-message')) {
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'video-error-message';
+            errorMsg.innerHTML = 'Error loading video. Please check that the video file exists at assets/videos/gongverse.webm or .mp4';
+            errorMsg.style.color = 'white';
+            errorMsg.style.padding = '20px';
+            errorMsg.style.textAlign = 'center';
+            errorMsg.style.position = 'absolute';
+            errorMsg.style.top = '50%';
+            errorMsg.style.left = '50%';
+            errorMsg.style.transform = 'translate(-50%, -50%)';
+            errorMsg.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            errorMsg.style.borderRadius = '5px';
+            errorMsg.style.width = '80%';
+            wrapper.appendChild(errorMsg);
+          }
+        }
       }
     });
   </script>
