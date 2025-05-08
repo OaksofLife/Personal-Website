@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andy Chai - RecycleSmart</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Using the same CSS styles from your original file -->
+  <style>
+    /* Reset and base styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    
+    body {
+      color: #fff;
+      background-color: #121212;
+      font-family: 'Arial', sans-serif;
+    }
+    
+    #main-content {
+      min-height: 100%;
+      position: relative;
+      overflow-y: auto;
+      z-index: 1; /* Lower z-index than lightbox */
+    }
+    
+    /* Project page header */
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 20px 0;
+      margin-bottom: 20px;
+    }
+    
+    .back-button {
+      background: none;
+      border: 1px solid white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-right: 20px;
+    }
+    
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .back-button svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+    
+    .header h1 {
+      font-size: 2rem;
+      font-weight: normal;
+      margin: 0;
+    }
+    
+    /* Project description layout */
+    .project-container {
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    .project-section {
+      margin-bottom: 40px;
+      font-family: 'Courier New', monospace;
+      line-height: 1.6;
+    }
+    
+    .project-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      font-weight: normal;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 10px;
+    }
+    
+    .project-section p {
+      margin-bottom: 20px;
+    }
+    
+    /* GitHub link section */
+    .github-link {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      margin-bottom: 40px;
+      transition: background 0.3s;
+    }
+    
+    .github-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .github-link svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+      margin-right: 15px;
+    }
+    
+    .github-link a {
+      color: white;
+      text-decoration: none;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .github-link a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Video section */
+    .video-container {
+      width: 100%;
+      margin-bottom: 40px;
+    }
+    
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      background: #111;
+      margin-bottom: 10px;
+    }
+    
+    .video-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    /* Image gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    
+    .gallery-item {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .gallery-image {
+      width: 100%;
+      height: 250px;
+      background-position: center;
+      background-size: cover;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .gallery-image:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .gallery-caption {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-style: italic;
+      text-align: center;
+    }
+    
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 2000; /* Ensure it's above everything else */
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .lightbox-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+    
+    .lightbox-close:hover {
+      background-color: rgba(80, 80, 80, 0.8);
+    }
+    
+    .lightbox-caption {
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 10px;
+      font-style: italic;
+      max-width: 80%;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="main-content">
+    <div class="top-section">
+      <div class="header">
+        <a href="projects.html" class="back-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+          </svg>
+        </a>
+        <h1>RecycleSmart</h1>
+      </div>
+      
+      <div class="project-container">
+        <!-- Why Section -->
+        <div class="project-section">
+          <h2>Why</h2>
+          <p>Knowing when to recycle or trash something was always annoying for me, so I wanted to develope an app that could do that for me. Also wanted to learn how to use pre-existing AI Apis.</p>
+        </div>
+        
+        <!-- How Section -->
+        <div class="project-section">
+          <h2>How</h2>
+          <p>The application was built using React and TensorFlow.js, implementing advanced AI-powered waste detection:</p>
+          <ul>
+            <li>Object detection using TensorFlow.js COCO-SSD model for identifying items in camera view</li>
+            <li>MobileNet image classification for more accurate waste categorization</li>
+            <li>Custom mapping of detected objects to waste categories (recycle, trash, compost)</li>
+            <li>Temporal detection stabilization to reduce flickering and improve user experience</li>
+            <li>Responsive camera interface with interactive bounding boxes and labels</li>
+            <li>Confidence threshold adjustment to fine-tune detection sensitivity</li>
+            <li>Snapshot capabilities for saving and analyzing waste objects</li>
+            <li>Real-time statistics showing counts of different waste categories</li>
+          </ul>
+        </div>
+        
+        <!-- What Section -->
+        <div class="project-section">
+          <h2>What</h2>
+          <p>The final result is an intuitive mobile-friendly web application that allows users to:</p>
+            <ul>
+            <li>Point their camera at waste items and receive instant classification feedback</li>
+            <li>See color-coded bounding boxes around detected items (green for recyclables, red for trash, yellow for compostables)</li>
+            <li>Adjust detection sensitivity to optimize performance for different environments</li>
+            <li>Take snapshots of waste items for later reference</li>
+            <li>View real-time statistics on detected waste categories</li>
+            <li>Learn proper waste disposal through visual feedback and item identification</li>
+            <li>Switch between front and rear cameras for flexible use</li>
+            </ul>
+            <p>Technologies used: React, TensorFlow.js, MobileNet, COCO-SSD, HTML5 Canvas, WebRTC for camera access, and progressive enhancement for cross-platform compatibility.</p>
+        </div>
+        
+        <!-- GitHub Link -->
+        <div class="github-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <a href="https://github.com/OaksofLife/RecycleSmart" target="_blank">github.com/OaksofLife/RecycleSmart</a>
+        </div>
+        
+        <!-- Video Section - UPDATED FOR BETTER PLAYBACK -->
+        <div class="project-section">
+          <h2>Project Demo</h2>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video controls autoplay="false" preload="metadata" poster="assets/images/RecycleSmart.jpg" id="demoVideo">
+                <source src="assets/videos/RecycleSmart.mp4" type="video/mp4">
+                <p>Your browser doesn't support HTML5 video. Here's a <a href="assets/videos/RecycleSmart.mp4" download>link to download</a> the video instead.</p>
+              </video>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Image Gallery -->
+        <div class="project-section">
+          <h2>Project Gallery</h2>
+          <div class="gallery">
+            <div class="gallery-item">
+              <div class="gallery-image" style="background-image: url('assets/images/RecycleSmart.jpg');" onclick="openLightbox('assets/images/RecycleSmart.jpg', 'RecycleSmart image 1')"></div>
+              <div class="gallery-caption">RecycleSmart image 1</div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-image" style="background-image: url('assets/images/RecycleSmart2.jpg');" onclick="openLightbox('assets/images/RecycleSmart2.jpg', 'RecycleSmart image 2')"></div>
+              <div class="gallery-caption">RecycleSmart image 2</div>
+            </div>
+            <div class="gallery-item">
+              <div class="gallery-image" style="background-image: url('assets/images/RecycleSmart3.jpg');" onclick="openLightbox('assets/images/RecycleSmart3.jpg', 'RecycleSmart image 3')"></div>
+              <div class="gallery-caption">RecycleSmart image 3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-content">
+        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        <img class="lightbox-img" id="lightbox-img" src="" alt="Enlarged project image">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+      </div>
+    </div>
+    
+    <footer>
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/andychai1/" target="_blank" rel="noopener">
+          <img src="assets/icons/linkedin.svg" alt="LinkedIn" />
+        </a>
+        <a href="https://github.com/OaksofLife" target="_blank" rel="noopener">
+          <img src="assets/icons/github.svg" alt="GitHub" />
+        </a>
+      </div>
+      <p>&copy; 2025 Andy Chai</p>
+    </footer>
+  </div>
+
+  <script>
+    // Lightbox functionality
+    function openLightbox(imgSrc, caption) {
+      // Set the image source
+      document.getElementById('lightbox-img').src = imgSrc;
+      
+      // Set the caption
+      const captionElement = document.getElementById('lightbox-caption');
+      if (caption) {
+        captionElement.textContent = caption;
+        captionElement.style.display = 'block';
+      } else {
+        captionElement.style.display = 'none';
+      }
+      
+      // Show the lightbox with a slight delay to ensure the image is loaded
+      setTimeout(function() {
+        document.getElementById('lightbox').classList.add('active');
+      }, 50);
+      
+      // Prevent scrolling
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      // Hide the lightbox
+      document.getElementById('lightbox').classList.remove('active');
+      
+      // Re-enable scrolling
+      document.body.style.overflow = 'auto';
+      
+      // Reset the image source after animation completes
+      setTimeout(function() {
+        document.getElementById('lightbox-img').src = '';
+      }, 300);
+    }
+
+    // Close lightbox when clicking outside the image
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      // Only close if the click was directly on the lightbox background (not on the image or caption)
+      if (e.target === this) {
+        closeLightbox();
+      }
+    });
+
+    // Close lightbox with ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.getElementById('lightbox').classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+
+    // Improved video handling
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.getElementById('demoVideo');
+      
+      if (video) {
+        // Add error handler for each source
+        const sources = video.querySelectorAll('source');
+        let sourcesLoaded = 0;
+        let sourcesError = 0;
+        
+        sources.forEach(function(source) {
+          source.addEventListener('error', function(e) {
+            console.error('Source error:', e);
+            sourcesError++;
+            
+            // Check if all sources failed
+            if (sourcesError === sources.length) {
+              showVideoError();
+            }
+          });
+        });
+        
+        // Add error handler for the video itself
+        video.addEventListener('error', function(e) {
+          console.error('Video error:', e);
+          showVideoError();
+        });
+        
+        // Force the video to attempt loading
+        video.load();
+        
+        // Force reload if the video doesn't play within 2 seconds
+        setTimeout(function() {
+          if (video.readyState === 0) {
+            video.load();
+          }
+        }, 2000);
+      }
+      
+      function showVideoError() {
+        const wrapper = video.closest('.video-wrapper');
+        if (wrapper) {
+          // Only add error message if it doesn't exist yet
+          if (!wrapper.querySelector('.video-error-message')) {
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'video-error-message';
+            errorMsg.innerHTML = 'Error loading video. Please check that the video file exists at assets/videos/gongverse.webm or .mp4';
+            errorMsg.style.color = 'white';
+            errorMsg.style.padding = '20px';
+            errorMsg.style.textAlign = 'center';
+            errorMsg.style.position = 'absolute';
+            errorMsg.style.top = '50%';
+            errorMsg.style.left = '50%';
+            errorMsg.style.transform = 'translate(-50%, -50%)';
+            errorMsg.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            errorMsg.style.borderRadius = '5px';
+            errorMsg.style.width = '80%';
+            wrapper.appendChild(errorMsg);
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
