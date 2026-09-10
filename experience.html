@@ -215,6 +215,41 @@
       background-color: rgba(255, 255, 255, 0.1);
       transform: translateY(-3px);
     }
+
+    /* Extra sections: exams / education / projects */
+    .info-section {
+      margin-bottom: 60px;
+    }
+
+    .info-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      font-weight: normal;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .info-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+
+    .info-card h3 {
+      font-weight: normal;
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+
+    .info-card span {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
     
     /* Footer styles */
     footer {
@@ -277,64 +312,121 @@
       
       <!-- Experience Cards Grid -->
       <div class="experience-grid">
-        <!-- Webis Experience (Most Recent) -->
+        <!-- LeapAP Experience (Most Recent) -->
         <div class="experience-card">
-          <h2>Webis</h2>
-          <h3>Independent Paid Contractor</h3>
-          <span class="experience-date">February 2025 - Present</span>
-          <div class="experience-photo" style="background-image: url('assets/images/webis.jpg');"></div>
-          <p>Currently developing custom web solutions for various businesses as an independent contractor, specializing in full-stack development with modern technologies.</p>
+          <h2>LeapAP</h2>
+          <h3>Developer Co-op</h3>
+          <span class="experience-date">September 2024 - September 2025 · Aurora, ON</span>
+          <div class="experience-photo" style="background-image: url('assets/images/leapap.jpg');"></div>
+          <p>Worked on automating and validating a large-scale utility bill data pipeline, while leading team stand-ups and mentoring incoming co-ops.</p>
           
-          <h4>Projects:</h4>
           <ul class="project-list">
-            <li>Gong-Verse Data Collection - A full-stack web application with Node.js backend and Google Sheets API for data storage</li>
-            <li>Gong-Party Registration - Election registration web app with secure backend storage</li>
-            <li>SheetPilot - Python automation tool for inputting spreadsheet data into web forms</li>
-            <li>RateMyChinese - Full-stack web application with user authentication and video functionalities</li>
+            <li>Automated retrieval and processing of utility bills across hundreds of vendor portals for thousands of clients, improving pipeline reliability and reducing manual intervention</li>
+            <li>Built Excel test suites to validate parser output, using XLOOKUP, conditional formatting, and sorting to identify discrepancy patterns and triage parser bugs vs. data issues</li>
+            <li>Identified a tooling gap and independently proposed and built a parser-creation template that reduced setup time for all future parsers</li>
+            <li>Led daily stand-ups and blocked meetings, communicating triage priorities and guiding colleagues through blockers with structured problem breakdowns</li>
+            <li>Mentored new co-op students, sharing institutional knowledge and providing hands-on support throughout their term</li>
           </ul>
           
           <div class="experience-technologies">
-            Technologies: JavaScript, Node.js, Express, Google APIs, HTML, CSS, Python, Selenium, AWS, PostgreSQL, React
+            Technologies: Excel (XLOOKUP, Conditional Formatting), Python, SQL, Git
+          </div>
+        </div>
+
+        <!-- Webis Experience -->
+        <div class="experience-card">
+          <h2>Webis</h2>
+          <h3>Independent Paid Contractor</h3>
+          <span class="experience-date">February 2025 - September 2025 · Remote</span>
+          <div class="experience-photo" style="background-image: url('assets/images/webis.jpg');"></div>
+          <p>Delivered digital services for multiple client projects, automating manual workflows and independently scoping solutions to open-ended problems.</p>
+          
+          <ul class="project-list">
+            <li>Worked across multiple client projects</li>
+            <li>Automated spreadsheet-to-web data entry via Python scripting, eliminating repetitive manual input and improving client workflow efficiency</li>
+            <li>Used Excel (XLOOKUP, conditional formatting) to cross-reference form submissions against existing datasets, ensuring data integrity before storage</li>
+            <li>Independently scoped solutions to open-ended problems, including designing a batching approach to manage large-scale data comparison under constrained storage</li>
+          </ul>
+          
+          <div class="experience-technologies">
+            Technologies: Python, Excel (XLOOKUP, Conditional Formatting), Web Automation
           </div>
         </div>
         
         <!-- North P&D Experience -->
         <div class="experience-card">
           <h2>North P&D</h2>
-          <h3>Junior Software Engineer Internship</h3>
-          <span class="experience-date">March 2023 - June 2023</span>
+          <h3>Junior Software Engineer</h3>
+          <span class="experience-date">March 2023 - June 2023 · Remote</span>
           <div class="experience-photo" style="background-image: url('assets/images/northpnd.jpg');"></div>
-          <p>Worked as a part of the development team, contributing to the company's web presence and gaining practical experience with industry-standard tools and workflows.</p>
+          <p>Contributed to the company's platform presence and gained hands-on experience with collaborative software development practices.</p>
           
           <ul class="project-list">
-            <li>Authored and updated web content using HTML, CSS, JavaScript, and React</li>
-            <li>Contributed directly to the company website through Git-based version control</li>
-            <li>Gained hands-on experience with industry-standard GitHub workflows</li>
-            <li>Participated in feature branches, pull requests, and collaborative code reviews</li>
+            <li>Wrote and published articles to drive platform exposure</li>
+            <li>Participated in peer code reviews</li>
           </ul>
           
           <div class="experience-technologies">
-            Technologies: HTML, CSS, JavaScript, React, Git, GitHub
+            Skills: Technical Writing, Code Review, Collaboration
           </div>
         </div>
         
         <!-- CCS Experience -->
         <div class="experience-card">
           <h2>Catholic Crosscultural Services</h2>
-          <h3>Group Leader and Supervisor</h3>
+          <h3>Volunteer Team Lead</h3>
           <span class="experience-date">May 2021 - April 2022</span>
           <div class="experience-photo" style="background-image: url('assets/images/CCS.jpg');"></div>
-          <p>Led an online Chinese-English tutoring program, coordinating a team of volunteers to provide high-quality educational services to diverse students.</p>
+          <p>Built and led a bilingual volunteer team from scratch to deliver Chinese-English tutoring for elderly newcomers.</p>
           
           <ul class="project-list">
-            <li>Led 7 volunteers in an online Chinese-English tutoring program</li>
-            <li>Coordinated lessons for multiple students across different age groups</li>
-            <li>Managed schedules, improved course materials, and led team meetings</li>
-            <li>Logged and coordinated over 1,000 volunteer hours collectively</li>
+            <li>Took initiative to build a bilingual volunteer team from scratch — recruiting candidates and conducting interviews to deliver Chinese-English tutoring for elderly newcomers</li>
+            <li>Led weekly team meetings to coordinate lesson plans, prevent content overlap, and resolve scheduling conflicts, scaling cadence as the program matured</li>
           </ul>
           
           <div class="experience-technologies">
             Skills: Leadership, Teaching, Coordination, Program Management
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects Section -->
+      <div class="info-section">
+        <h2>Projects</h2>
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>Dreamland Buddies</h3>
+            <span>August 2023 — Won 1st place at Recess Hacks 3.0, building a sleep habit monitoring app with a team of developers</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actuarial Exams Section -->
+      <div class="info-section">
+        <h2>Actuarial Exams</h2>
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>Exam P</h3>
+            <span>Passed — January 2026</span>
+          </div>
+          <div class="info-card">
+            <h3>Exam FM</h3>
+            <span>Passed — April 2026</span>
+          </div>
+          <div class="info-card">
+            <h3>MAS-I</h3>
+            <span>Sitting — August 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Education Section -->
+      <div class="info-section">
+        <h2>Education</h2>
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>University of Waterloo</h3>
+            <span>Bachelor of Honours Mathematics — Actuarial Science<br>September 2024 - April 2029</span>
           </div>
         </div>
       </div>
@@ -343,18 +435,18 @@
       <div class="skills-section">
         <h2>Technical Skills</h2>
         <div class="skills-grid">
+          <div class="skill-item">Excel (XLOOKUP, INDEX/MATCH, Pivot Tables)</div>
+          <div class="skill-item">SQL (PostgreSQL)</div>
+          <div class="skill-item">Python (Pandas, NumPy, Scikit-learn)</div>
+          <div class="skill-item">R (ggplot2, dplyr, tidyr)</div>
+          <div class="skill-item">VBA</div>
+          <div class="skill-item">C++</div>
+          <div class="skill-item">Git/GitHub</div>
           <div class="skill-item">JavaScript</div>
           <div class="skill-item">React</div>
           <div class="skill-item">Node.js</div>
           <div class="skill-item">HTML/CSS</div>
-          <div class="skill-item">Python</div>
-          <div class="skill-item">Git/GitHub</div>
           <div class="skill-item">AWS</div>
-          <div class="skill-item">PostgreSQL</div>
-          <div class="skill-item">Express</div>
-          <div class="skill-item">Selenium</div>
-          <div class="skill-item">Google APIs</div>
-          <div class="skill-item">UI/UX Design</div>
         </div>
       </div>
     </div>
@@ -368,7 +460,7 @@
           <img src="assets/icons/github.svg" alt="GitHub" />
         </a>
       </div>
-      <p>&copy; 2025 Andy Chai</p>
+      <p>&copy; 2026 Andy Chai</p>
     </footer>
   </div>
 </body>
